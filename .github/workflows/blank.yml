@@ -1,4 +1,4 @@
-name: Docker Image CI
+name: ZAP for Docker
 
 on:
   pull_request:
