@@ -15,7 +15,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           DD_API_KEY: ${{ secrets.DD_API_KEY }}
-          DD_URL: ${{ variables.DD_URL }}
           DD_PRODUCT_ID: ${{ secrets.DD_PRODUCT_ID }}
         run: |
           # Step 1: Fetch Dependabot alerts via GitHub API (JSON)
