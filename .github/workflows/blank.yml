@@ -1,17 +1,43 @@
-name: ZAP for Docker
+name: Import Dependabot Alerts to DefectDojo
 
+# Triggers: Scheduled (every 6h) or manual dispatch
 on:
-  pull_request:
-    branches: [ "main" ]
+  schedule:
+    - cron: '0 */12 * * *'  # Every 6 hours
 
 jobs:
-  build:
+  import-alerts:
     runs-on: ubuntu-latest
+    permissions:
+      security-events: write  # Required for GitHub alerts API
+
     steps:
-    - uses: actions/checkout@v3
-    - name: Build the Docker image
-      run: docker build -t web-app . && docker run -dp 3000:3000 web-app
-    - name: ZAP Scan
-      uses: zaproxy/action-baseline@v0.7.0
-      with:
-        target: 'http://localhost:3000'
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          # Optional: Fetch all history for better context
+          fetch-depth: 0
+
+      - name: Import Dependabot Alerts to DefectDojo
+        uses: DefectDojo/defectdojo-github-action@v1.4
+        with:
+          # DefectDojo API details
+          api-key: ${{ secrets.DD_API_KEY }}
+          api-url: ${{ secrets.DD_URL }}
+          
+          # GitHub integration
+          github-token: ${{ secrets.GITHUB_TOKEN }}  # Auto-provided
+          
+          # Import specifics
+          product-id: ${{ secrets.DD_PRODUCT_ID }}  # Your DefectDojo Product
+          import-type: 'GitHub Dependency Alerts'   # Specifies Dependabot
+          
+          
+          # Optional: Engagement settings (for grouping)
+          engagement-name: 'Dependabot Scan ${{ github.run_id }}'
+          engagement-description: 'Automated import from GitHub Dependabot'
+
+      - name: Notify on Failure (Optional)
+        if: failure()
+        run: |
+          echo "Import failed! Check DefectDojo logs for Product ID ${{ secrets.DD_PRODUCT_ID }}"
