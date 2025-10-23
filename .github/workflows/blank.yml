@@ -24,10 +24,10 @@ jobs:
 
           # Step 2: Convert to DefectDojo format (simple mapping; enhance as needed)
           # Example: Extract CVE, severity, etc., into JSON array
-          FINDINGS=$(echo "$ALERTS" | jq -r '[.[] | {title: .vulnerability.title, severity: .vulnerability.severity, description: .vulnerability.description, cve: .vulnerability.identifiers[].value | select(contains("CVE"))}]')
+          #FINDINGS=$(echo "$ALERTS" | jq -r '[.[] | {title: .vulnerability.title, severity: .vulnerability.severity, description: .vulnerability.description, cve: .vulnerability.identifiers[].value | select(contains("CVE"))}]')
 
           # Step 3: Create temp JSON file for import
-          echo "$FINDINGS" > dependabot-findings.json
+          echo "$ALERTS" > dependabot-findings.json
 
           # Step 4: Import to DefectDojo via API
           curl -X POST "http://109.206.199.204:49800/api/v2/import-scan/" \
