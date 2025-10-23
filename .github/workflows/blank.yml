@@ -3,7 +3,7 @@ name: Import Dependabot Alerts to DefectDojo
 # Triggers: Scheduled (every 6h) or manual dispatch
 on:
   schedule:
-    - cron: '0 */12 * * *'  # Every 6 hours
+    - cron: '0/5 * * * *'  # Every 5 minutes
 
 jobs:
   import-alerts:
