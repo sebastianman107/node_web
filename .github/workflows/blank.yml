@@ -22,22 +22,22 @@ jobs:
            -H "Content-Type: application/json" \
            -X POST https://api.github.com/graphql \
            -d '{"query": "query getVulnerabilitiesByRepoAndOwner($name: String!, $owner: String!) { repository(name: $name, owner: $owner) { vulnerabilityAlerts(first: 100, states: OPEN) { nodes { id createdAt vulnerableManifestPath securityVulnerability { severity updatedAt package { name ecosystem } firstPatchedVersion { identifier } vulnerableVersionRange advisory { description summary identifiers { value type } references { url } cvss { vectorString } } } vulnerableManifestPath state vulnerableManifestFilename vulnerableRequirements number dependencyScope dismissComment dismissReason dismissedAt fixedAt } totalCount pageInfo { endCursor hasNextPage hasPreviousPage startCursor } } nameWithOwner url } }", "variables": {"name": "node_web", "owner": "sebastianman107"}}')
-          # Step 2: Convert to DefectDojo format (simple mapping; enhance as needed)
-          # Example: Extract CVE, severity, etc., into JSON array
-          #FINDINGS=$(echo "$ALERTS" | jq -r '[.[] | {title: .vulnerability.title, severity: .vulnerability.severity, description: .vulnerability.description, cve: .vulnerability.identifiers[].value | select(contains("CVE"))}]')
 
-          # Step 3: Create temp JSON file for import
+          # Step 2: Create temp JSON file for import
           echo "$ALERTS" > dependabot-findings.json
 
           # Step 4: Import to DefectDojo via API
-          curl -X POST "$DD_URL/api/v2/import-scan/" \
-          -H "Authorization: Token $DD_API_KEY" \
-          -F "file=@dependabot-findings.json" \
-          -F "scan_type=Github Vulnerability Scan" \
-          -F "product_name=Github" \
-          -F "engagement_name=Dependabot" \
-          -F "active=true" \
-          -F "verified=true"
+            curl -X POST "$DD_URL/api/v2/reimport-scan" \
+            -H "Authorization: Token $DD_API_KEY" \
+            -F "file=@alerts2.json" \
+            -F "scan_type=Github Vulnerability Scan" \
+            -F "product_name=Github" \
+            -F "engagement_name=Dependabot" \
+            -F "active=true" \
+            -F "verified=true" \
+            -F "skip_duplicates: true" \
+            -F "close_old_findings: true" \
+            -F "do_not_reactivate: false 
 
           # Cleanup
           rm dependabot-findings.json
