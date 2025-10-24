@@ -35,9 +35,9 @@ jobs:
             -F "engagement_name=Dependabot" \
             -F "active=true" \
             -F "verified=true" \
-            -F "skip_duplicates: true" \
-            -F "close_old_findings: true" \
-            -F "do_not_reactivate: false" 
+            -F "skip_duplicates=true" \
+            -F "close_old_findings=true" \
+            -F "do_not_reactivate=false" 
 
           # Cleanup
           rm dependabot-findings.json
