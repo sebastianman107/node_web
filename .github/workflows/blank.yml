@@ -30,14 +30,14 @@ jobs:
           echo "$ALERTS" > dependabot-findings.json
 
           # Step 4: Import to DefectDojo via API
-          curl -X POST "http://109.206.199.204:49800/api/v2/import-scan/" \
-            -H "Authorization: Token $DD_API_KEY" \
-            -F "file=@dependabot-findings.json" \
-            -F "scan_type=GitHub Dependabot Scan" \
-            -F "product=$DD_PRODUCT_ID" \
-            -F "active=true" \
-            -F "verified=true" \
-            -F "min_severity=Medium"  # Filter in DefectDojo
+          curl -X POST "$DD_URL/api/v2/import-scan/" \
+          -H "Authorization: Token $DD_API_KEY" \
+          -F "file=@alerts2.json" \
+          -F "scan_type=Github Vulnerability Scan" \
+          -F "product_name=Github" \
+          -F "engagement_name=Dependabot" \
+          -F "active=true" \
+          -F "verified=true"
 
           # Cleanup
           rm dependabot-findings.json
