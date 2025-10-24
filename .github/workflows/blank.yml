@@ -2,7 +2,7 @@ name: Import Dependabot Alerts to DefectDojo
 
 on:
   schedule:
-    - cron: '0/59 * * * *'  
+    - cron: '0/15 * * * *'  
 jobs:
   import-alerts:
     runs-on: ubuntu-latest
@@ -37,7 +37,7 @@ jobs:
             -F "verified=true" \
             -F "skip_duplicates: true" \
             -F "close_old_findings: true" \
-            -F "do_not_reactivate: false 
+            -F "do_not_reactivate: false" 
 
           # Cleanup
           rm dependabot-findings.json
