@@ -15,7 +15,7 @@ jobs:
           MY_GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
           DD_API_KEY: ${{ secrets.DD_API_KEY }}
           DD_PRODUCT_ID: ${{ secrets.DD_PRODUCT_ID }}
-          DD_URL : ${{ secrets.DD_URL }}
+          DD_URL: ${{ secrets.DD_URL }}
         run: |
           # Step 1: Fetch Dependabot alerts via GitHub API (JSON)
           ALERTS=$(curl -s -H "Authorization: bearer $MY_GITHUB_TOKEN" \
