@@ -2,7 +2,7 @@ name: Import Dependabot Alerts to DefectDojo
 
 on:
   schedule:
-    - cron: '0 0/6 * * *'  
+    - cron: '0/15 0 * * *'  
 jobs:
   import-alerts:
     runs-on: ubuntu-latest
