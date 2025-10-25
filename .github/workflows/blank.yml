@@ -25,9 +25,9 @@ jobs:
 
           # Step 2: Create temp JSON file for import
           echo "$ALERTS" > dependabot-findings.json
-
+          cat dependabot-findings.json
           # Step 4: Import to DefectDojo via API
-            curl -X POST "$DD_URL/api/v2/reimport-scan" \
+          curl -X POST "$DD_URL/api/v2/reimport-scan" \
             -H "Authorization: Token $DD_API_KEY" \
             -F "file=@dependabot-findings.json" \
             -F "scan_type=Github Vulnerability Scan" \
